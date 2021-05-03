@@ -1,0 +1,29 @@
+{
+  "name": "cowin-tele-bot",
+  "version": "1.0.0",
+  "description": "cowin telegram bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"   
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonalmathew/CoWIN-tele-bot.git"
+  },
+  "author": "tonalmathew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonalmathew/CoWIN-tele-bot/issues"
+  },
+  "homepage": "https://github.com/tonalmathew/CoWIN-tele-bot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "telegram-bot-api": "^2.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
