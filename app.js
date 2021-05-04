@@ -21,7 +21,7 @@ bot.start((ctx) => {
   // })
 });
 
-bot.on("text", (ctx) => {
+bot.on('text', (ctx) => {
   // console.log(ctx.message.text)
   pin = ctx.message.text;
 
