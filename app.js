@@ -47,8 +47,8 @@ bot.on('text', (ctx) => {
       })
       .catch(function (error) {
         // handle error
-        // console.log(error.response.data.error);
-        ctx.reply(error.response.data.error);
+        console.log(error);
+        // ctx.reply(error.response.data.error);
       });
   }
 
