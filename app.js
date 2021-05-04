@@ -24,10 +24,8 @@ bot.start((ctx) => {
 bot.on('text', (ctx) => {
   console.log(ctx.message.text)
   
-
-try{
   pin = ctx.message.text;
-  function getDetails(pin) {
+  function getDetails() {
     // console.log(this.pin)
     url = `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${this.pin}&date=04-05-2021`;
     axios
@@ -55,9 +53,7 @@ try{
   }
   
   getDetails();
-}catch{
- console.log("error")
-}
+
 
 });
 
