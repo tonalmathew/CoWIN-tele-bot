@@ -6,7 +6,7 @@ dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => {
-  ctx.reply(`welcome ${ctx.message.chat.first_name} enter your PIN code`);
+  ctx.reply(`welcome ${ctx.message.chat.first_name} enter your Pincode`);
   // console.log(ctx.message)
   // ctx.telegram.sendMessage(ctx.chat.id, "select your District", {
   //   reply_markup: {
@@ -23,8 +23,10 @@ bot.start((ctx) => {
 
 bot.on('text', (ctx) => {
   console.log(ctx.message.text)
-  pin = ctx.message.text;
+  
 
+try{
+  pin = ctx.message.text;
   function getDetails(pin) {
     // console.log(this.pin)
     url = `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${this.pin}&date=04-05-2021`;
@@ -42,17 +44,21 @@ bot.on('text', (ctx) => {
         } else {
           ctx.reply("No Vaccination center is available for booking.");
         }
-
+  
         // console.log(sessionData)
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-        ctx.reply("Invalid PIN");
+        ctx.reply("Invalid Pincode");
       });
   }
-
+  
   getDetails();
+}catch{
+ console.log("error")
+}
+
 });
 
 bot.launch();
