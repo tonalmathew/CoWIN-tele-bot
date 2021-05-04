@@ -22,7 +22,7 @@ bot.start((ctx) => {
 });
 
 bot.on('text', (ctx) => {
-  // console.log(ctx.message.text)
+  console.log(ctx.message.text)
   pin = ctx.message.text;
 
   function getDetails(pin) {
