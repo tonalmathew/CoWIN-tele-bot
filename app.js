@@ -1,12 +1,10 @@
-const { Telegraf } = require('telegraf')
-const dotenv = require('dotenv')
-const axios = require('axios')
+const { Telegraf } = require("telegraf");
+const dotenv = require("dotenv");
+const axios = require("axios");
 
+dotenv.config();
 
-dotenv.config()
-
-
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => {
   ctx.reply(`welcome ${ctx.message.chat.first_name} enter your PIN code`);
   // console.log(ctx.message)
@@ -21,39 +19,40 @@ bot.start((ctx) => {
   //   ]
   //   }
   // })
-})
+});
 
-bot.on('text', (ctx) => {
+bot.on("text", (ctx) => {
   // console.log(ctx.message.text)
-  pin=ctx.message.text
-  
-  function getDetails(pin){
+  pin = ctx.message.text;
+
+  function getDetails(pin) {
     // console.log(this.pin)
-    url=`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${this.pin}&date=04-05-2021`
-    axios.get(url)
-    .then((res)=>{
-      sessionData = res.data.centers
-      // console.log(sessionData.length)
-      if(sessionData.length != 0){
-        sessionData.forEach(element => {
-          ctx.reply(`State: ${element.state_name} \nDistrict: ${element.district_name} \nname: ${element.name} \nAvailable Sessions: ${element.sessions[0].available_capacity}`);
-        });
-      }else{
-        ctx.reply("No Vaccination center is available for booking.")
-      }
-      
-      // console.log(sessionData)
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error.response.data.error);
-      ctx.reply(error.response.data.error);
+    url = `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${this.pin}&date=04-05-2021`;
+    axios
+      .get(url)
+      .then((res) => {
+        sessionData = res.data.centers;
+        // console.log(sessionData.length)
+        if (sessionData.length != 0) {
+          sessionData.forEach((element) => {
+            ctx.reply(
+              `State: ${element.state_name} \nDistrict: ${element.district_name} \nname: ${element.name} \nAvailable Sessions: ${element.sessions[0].available_capacity}`
+            );
+          });
+        } else {
+          ctx.reply("No Vaccination center is available for booking.");
+        }
 
-    })
+        // console.log(sessionData)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error.response.data.error);
+        ctx.reply(error.response.data.error);
+      });
   }
-  
-  getDetails()
-})
 
+  getDetails();
+});
 
-bot.launch()
+bot.launch();
