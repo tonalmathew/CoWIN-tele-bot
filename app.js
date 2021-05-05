@@ -1,6 +1,8 @@
 const { Telegraf } = require("telegraf");
 const dotenv = require("dotenv");
 const axios = require("axios");
+const api = require("./core/api");
+const utils = require("./core/utils/date");
 
 dotenv.config();
 
@@ -21,20 +23,24 @@ bot.start((ctx) => {
   // })
 });
 
-bot.on('text', (ctx) => {
-  console.log(ctx.message.text)
-  
-  pin = ctx.message.text;
-  function getDetails() {
-    // console.log(this.pin)
-    url = `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${this.pin}&date=04-05-2021`;
-    axios
-      .get(url)
-      .then((res) => {
-        sessionData = res.data.centers;
-        // console.log(sessionData.length)
-        if (sessionData.length != 0) {
-          sessionData.forEach((element) => {
+bot.on("text", (ctx) => {
+  console.log(ctx.message.text);
+
+  pinCode = ctx.message.text;
+
+  async function getDetails() {
+    ctx.reply("Please wait");
+
+    let currentDate = utils.utils.getDate();
+
+    try {
+      let sessionData = await api.api.getAppointMentBasedOnPinCode(
+        pinCode,
+        currentDate
+      );
+      if (sessionData.centers != null) {
+        if (sessionData.centers.length != 0) {
+          sessionData.centers.forEach((element) => {
             ctx.reply(
               `State: ${element.state_name} \nDistrict: ${element.district_name} \nname: ${element.name} \nAvailable Sessions: ${element.sessions[0].available_capacity}`
             );
@@ -42,19 +48,16 @@ bot.on('text', (ctx) => {
         } else {
           ctx.reply("No Vaccination center is available for booking.");
         }
-  
-        // console.log(sessionData)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-        ctx.reply("Invalid Pincode");
-      });
+      } else {
+        ctx.reply("Something went wrong, Please try again!");
+      }
+    } catch (error) {
+      console.log(`error ${error}`);
+      ctx.reply("Invalid Pincode");
+    }
   }
-  
+
   getDetails();
-
-
 });
 
 bot.launch();
